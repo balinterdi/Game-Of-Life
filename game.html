@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Game of Life</title>
+    <script type="text/javascript" src="out/goog/base.js"></script>
+    <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript">
+      goog.require('game_of_life.core');
+    </script>
+  </head>
+  <body>
+    <canvas id="board" width="250" height="250">
+    </canvas>
+    <button id="next" style="display:block">Next</button>
+    <button id="random-life" style="display:block">Random</button>
+    <input id="current-life" type="hidden" name="current_life" value="0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0" />
+    <script type="text/javascript">
+      goog.events.listen(document.getElementById('next'), goog.events.EventType.CLICK, function() {
+        game_of_life.core.next_life();
+      });
+      goog.events.listen(document.getElementById('random-life'), goog.events.EventType.CLICK, function() {
+        game_of_life.core.random_life();
+      });
+      game_of_life.core.start();
+    </script>
+  </body>
+</html>
+
