@@ -1,7 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>Game of Life</title>
+    <link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="out/goog/base.js"></script>
     <script type="text/javascript" src="game.js"></script>
     <script type="text/javascript">
@@ -9,11 +12,31 @@
     </script>
   </head>
   <body>
-    <canvas id="board" width="250" height="250">
-    </canvas>
-    <button id="next" style="display:block">Next</button>
-    <button id="random-life" style="display:block">Random</button>
-    <input id="current-life" type="hidden" name="current_life" value="0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0" />
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Game of Life</a>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <canvas id="glider" width="50" height="50"></canvas>
+        </div>
+        <div class="span9">
+          <div class="span12">
+            <canvas id="board" width="250" height="250"></canvas>
+            <input id="current-life" type="hidden" name="current_life" data-name="blinker" value="0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0" />
+            <input id="current-life" type="hidden" name="current_life" data-name="r-pentomino" value="0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0" />
+          </div>
+          <div class="span12">
+            <button id="next" class="btn btn-primary">Next</button>
+            <button id="random-life" class="btn btn-info">Random</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script type="text/javascript">
       goog.events.listen(document.getElementById('next'), goog.events.EventType.CLICK, function() {
         game_of_life.core.next_life();
