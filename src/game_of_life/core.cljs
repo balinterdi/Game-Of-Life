@@ -1,3 +1,5 @@
+; TODO: check out monet to replace canvas code
+; http://www.chris-granger.com/projects/cljs/
 (ns game-of-life.core
   (:require [clojure.browser.repl :as repl]
             [domina :as domina]
@@ -10,24 +12,29 @@
 (defn ^:export set-canvas []
   (domina/append! (css/sel "#board") "<div>Hello World!</div>"))
 
-;; FIXME: this should probably go
+;; TODO: this should probably go
 (def table-size 5)
 
-(defn draw-cells [life]
-  (let [canvas (.getContext (.getElementById js/document "board") "2d")]
-    (set! (.-fillStyle canvas) "rgb(0, 0, 0)")
-    (doseq [[x, y, living] life]
-      ;(.log js/console "x: " x " y: " y " living: " living)
+(defn draw-circle [canvas x y radius color]
+  (do
+    (set! (.-fillStyle canvas) color)
+    (. canvas (beginPath))
+    (. canvas arc x y radius 0 (* 2 (. js/Math -PI)) true)
+    (. canvas (fill))))
+
+(defn draw-cells [life board-id cell-size]
+  ;; TODO: draw only the living cells here
+  ;; and draw the board as lines
+  (let [canvas (.getContext (.getElementById js/document board-id) "2d")
+        cell-center (quot cell-size 2)
+        life-radius (- (quot cell-size 2) (quot cell-size 10))]
+    (doseq [[row, col, living] life]
+      ;(.log js/console "row: " row " col: " col " living: " living)
       (if (= 1 living)
-        (do
-          (. canvas (beginPath))
-          (. canvas arc (+ 25 (* x 50)) (+ 25 (* y 50)) 20 0 (* 2 (. js/Math -PI)) true)
-          (. canvas (fill)))
-        (do
-          (set! (.-fillStyle canvas) "rgb(255, 255, 255)")
-          (.fillRect canvas (* x 50) (* 50 y) 50 50)))
+        (draw-circle canvas (+ cell-center (* col cell-size)) (+ cell-center (* row cell-size)) life-radius "rgb(0, 0, 0)")
+        (draw-circle canvas (+ cell-center (* col cell-size)) (+ cell-center (* row cell-size)) life-radius "rgb(255, 255, 255)"))
       (set! (.-fillStyle canvas) "rgb(0, 0, 0)")
-      (.strokeRect canvas (* x 50) (* 50 y) 50 50))))
+      (.strokeRect canvas (* row cell-size) (* col cell-size) cell-size cell-size))))
 
 (defn store-life [life]
   (let [life-store (.getElementById js/document "current-life")]
@@ -42,13 +49,16 @@
   (let [life-store (.getElementById js/document "current-life")
         current-life (.-value life-store)
         next-life (game/get-next-life (map #(js/parseInt %) (clojure.string/split current-life #",")) table-size)]
-      (draw-cells next-life)
+      (draw-cells next-life "board" 50)
       (set! (.-value life-store) (clojure.string/join "," (map (fn [[_, _, living]] living) next-life)))))
 
-(defn ^:export start []
-  (draw-cells
-    (game/add-coordinates
-      (map #(js/parseInt %)
-           (clojure.string/split (.-value (.getElementById js/document "current-life")) #","))
-      table-size)
-    ))
+(defn ^:export draw-boards []
+  (let [convert-to-board
+         (fn [field-id]
+            (game/add-coordinates
+              (map #(js/parseInt %)
+                   (clojure.string/split (.-value (.getElementById js/document field-id)) #","))
+              table-size))]
+    (draw-cells (convert-to-board "current-life") "board" 50)
+    (draw-cells (convert-to-board "r-pentomino") "r-pentomino-board" 10)
+    (draw-cells (convert-to-board "blinker") "blinker-board" 10)))

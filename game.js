@@ -7,4 +7,4 @@ goog.addDependency("../domina/css.js", ['domina.css'], ['cljs.core', 'goog.dom',
 goog.addDependency("../domina/support.js", ['domina.support'], ['cljs.core', 'goog.dom', 'goog.events']);
 goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
 goog.addDependency("../domina.js", ['domina'], ['cljs.core', 'domina.support', 'goog.dom.classes', 'goog.events', 'goog.dom.xml', 'goog.dom.forms', 'goog.dom', 'goog.string', 'clojure.string', 'goog.style', 'cljs.core']);
-goog.addDependency("../cmJmq.js", ['game_of_life.core'], ['cljs.core', 'clojure.browser.repl', 'domina', 'domina.css', 'game_of_life.game']);
+goog.addDependency("../nDUC5.js", ['game_of_life.core'], ['cljs.core', 'clojure.browser.repl', 'domina', 'domina.css', 'game_of_life.game']);

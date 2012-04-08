@@ -22,13 +22,15 @@
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
-          <canvas id="glider" width="50" height="50"></canvas>
+          <canvas id="blinker-board" width="50" height="50"></canvas>
+          <canvas id="r-pentomino-board" width="50" height="50"></canvas>
         </div>
         <div class="span9">
           <div class="span12">
             <canvas id="board" width="250" height="250"></canvas>
             <input id="current-life" type="hidden" name="current_life" data-name="blinker" value="0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0" />
-            <input id="current-life" type="hidden" name="current_life" data-name="r-pentomino" value="0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0" />
+            <input id="blinker" type="hidden" name="blinker" data-name="blinker" value="0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0" />
+            <input id="r-pentomino" type="hidden" name="r-pentomino" data-name="r-pentomino" value="0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0" />
           </div>
           <div class="span12">
             <button id="next" class="btn btn-primary">Next</button>
@@ -44,7 +46,7 @@
       goog.events.listen(document.getElementById('random-life'), goog.events.EventType.CLICK, function() {
         game_of_life.core.random_life();
       });
-      game_of_life.core.start();
+      game_of_life.core.draw_boards();
     </script>
   </body>
 </html>
